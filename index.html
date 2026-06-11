@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CocoDeras</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon" type="image/png" href="/assets/esenciales/icono.png">
+    <meta property="og:title" content="CocoDeras">
+    <meta property="og:description" content="Deras Delantera Bandera Escalera Andadera Heladera Regadera Madriguera Ladera Manguera Panadera Papelera Carretera Camarera Cocotera">
+    <meta property="og:image" content="https://david23trre.github.io/Cocoderas/assets/esenciales/miniatura.jpg">
+    <meta property="og:url" content="https://david23trre.github.io/CocoDeras/">
+    <meta property="og:type" content="website">
+</head>
+
+<body>
+    <div class="game-frame">
+        <div class="scene">
+
+            <div class="clouds" id="clouds"></div>
+            <div class="wind-particles" id="windParticles"></div>
+
+            <div class="info">
+                Haz click sobre la palmera🗣️
+            </div>
+
+            <div class="palm-wrapper" id="palmWrapper" tabindex="-1">
+                <img id="palmera" src="./assets/palmera/base1.png" alt="Palmera" draggable="false">
+            </div>
+
+            <div class="ground">
+                <img id="suelo" src="./assets/suelo/base1.png" alt="Suelo" draggable="false">
+            </div>
+
+        </div>
+    </div>
+
+    <script src="./js/palm.js"></script>
+    <script src="./js/ground.js"></script>
+    <script src="./js/clouds.js"></script>
+    <script src="./js/wind.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>

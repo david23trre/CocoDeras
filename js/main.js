@@ -1,0 +1,4 @@
+initPalm();
+initGround();
+initClouds();
+initWind();
