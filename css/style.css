@@ -136,6 +136,61 @@ body {
     user-select: none;
 }
 
+.install-prompt {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    background: rgba(15,31,39,.82);
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.22);
+    font-family: sans-serif;
+    z-index: 50;
+}
+
+.install-prompt__button,
+.install-prompt__close {
+    border: 0;
+    color: white;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.install-prompt__button {
+    min-height: 24px;
+    padding: 0 8px;
+    background: rgba(255,255,255,.16);
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 1;
+}
+
+.install-prompt__close {
+    width: 20px;
+    height: 20px;
+    display: grid;
+    place-items: center;
+    background: transparent;
+    font-size: 15px;
+    line-height: 1;
+    opacity: .78;
+}
+
+.install-prompt__button:active,
+.install-prompt__close:active {
+    transform: translateY(1px);
+}
+
+@media (display-mode: standalone) {
+    .install-prompt {
+        display: none;
+    }
+}
+
 .palm-wrapper {
     position: absolute;
     left: 50%;

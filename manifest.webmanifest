@@ -1,0 +1,25 @@
+{
+    "name": "CocoDeras",
+    "short_name": "CocoDeras",
+    "description": "Haz click en la palmera.",
+    "start_url": "./",
+    "scope": "./",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#9adfff",
+    "theme_color": "#9adfff",
+    "icons": [
+        {
+            "src": "./assets/esenciales/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "./assets/esenciales/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
