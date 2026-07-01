@@ -12,28 +12,29 @@
     }
 
     let installPrompt = null;
-    let installBanner = null;
+    const installBanner = document.getElementById('installPrompt');
 
     function hideInstallBanner() {
         if (installBanner) {
-            installBanner.remove();
-            installBanner = null;
+            installBanner.hidden = true;
         }
     }
 
     function showInstallBanner() {
-        if (!installPrompt || installBanner) {
+        if (!installPrompt || !installBanner) {
             return;
         }
 
-        installBanner = document.createElement('div');
-        installBanner.className = 'install-prompt';
-        installBanner.innerHTML = `
-            <button class="install-prompt__button" type="button">Instalar app</button>
-            <button class="install-prompt__close" type="button" aria-label="Ocultar">&times;</button>
-        `;
+        installBanner.hidden = false;
+    }
 
+    if (installBanner) {
         installBanner.querySelector('.install-prompt__button').addEventListener('click', async function () {
+            if (!installPrompt) {
+                hideInstallBanner();
+                return;
+            }
+
             hideInstallBanner();
             installPrompt.prompt();
             await installPrompt.userChoice;
@@ -41,7 +42,6 @@
         });
 
         installBanner.querySelector('.install-prompt__close').addEventListener('click', hideInstallBanner);
-        document.body.appendChild(installBanner);
     }
 
     window.addEventListener('beforeinstallprompt', function (event) {

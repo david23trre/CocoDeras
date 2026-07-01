@@ -27,8 +27,17 @@
             <div class="clouds" id="clouds"></div>
             <div class="wind-particles" id="windParticles"></div>
 
-            <div class="info">
-                Haz click en la palmera🗣️
+            <div class="install-prompt" id="installPrompt" hidden>
+                <button class="install-prompt__button" type="button">
+                    <span class="install-prompt__spark">+</span>
+                    <span class="install-prompt__copy">
+                        <span class="install-prompt__title">Guardar CocoDeras</span>
+                        <span class="install-prompt__hint">para abrirlo como app</span>
+                    </span>
+                </button>
+                <button class="install-prompt__close" type="button" aria-label="Ocultar instalacion">
+                    &times;
+                </button>
             </div>
 
             <div class="palm-wrapper" id="palmWrapper" tabindex="-1">
