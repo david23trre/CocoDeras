@@ -48,6 +48,30 @@
                 <img id="suelo" src="./assets/suelo/base1.png" alt="Suelo" draggable="false">
             </div>
 
+            <div class="game-hint" id="gameHint">Sacude la palmera</div>
+
+            <div class="message-modal" id="messageModal" hidden>
+                <div class="message-card">
+                    <span class="message-card__corner message-card__corner--tl"></span>
+                    <span class="message-card__corner message-card__corner--tr"></span>
+                    <span class="message-card__corner message-card__corner--bl"></span>
+                    <span class="message-card__corner message-card__corner--br"></span>
+                    <span class="message-card__stamp"></span>
+                    <span class="message-card__tape message-card__tape--left"></span>
+                    <span class="message-card__tape message-card__tape--right"></span>
+                    <span class="message-card__spark message-card__spark--left"></span>
+                    <span class="message-card__spark message-card__spark--right"></span>
+                    <span class="message-card__dot message-card__dot--one"></span>
+                    <span class="message-card__dot message-card__dot--two"></span>
+                    <span class="message-card__dot message-card__dot--three"></span>
+                    <span class="message-card__label">Cartita secreta</span>
+                    <div class="message-card__paper">
+                        <p class="message-card__text" id="messageText"></p>
+                    </div>
+                    <button class="message-card__button" id="messageClose" type="button">Buscar otro coco</button>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -55,6 +79,9 @@
     <script src="./js/ground.js"></script>
     <script src="./js/clouds.js"></script>
     <script src="./js/wind.js"></script>
+    <script src="./js/mensajes.js"></script>
+    <script src="./js/coconuts.js"></script>
+    <script src="./js/music.js"></script>
     <script src="./js/main.js"></script>
     <script src="./js/pwa.js"></script>
 </body>

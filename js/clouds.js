@@ -17,8 +17,9 @@ function initClouds() {
     let lastCloudSrc = null;
     let cloudTimer = null;
 
-    const maxClouds = 555;
-    const spawnDelay = 2500;
+    const maxClouds = 7;
+    const minSpawnDelay = 3600;
+    const maxSpawnDelay = 9200;
 
     function getActiveClouds() {
         return clouds.querySelectorAll(".cloud").length;
@@ -51,11 +52,11 @@ function initClouds() {
 
         const cloud = document.createElement("img");
 
-        const size = 65 + Math.random() * 105;
-        const top = Math.random() * 48;
-        const opacity = .58 + Math.random() * .3;
+        const size = 58 + Math.random() * 92;
+        const top = 4 + Math.random() * 46;
+        const opacity = .52 + Math.random() * .26;
         const rotation = (Math.random() * 10) - 5;
-        const duration = 22 + (size / 170) * 15 + Math.random() * 7;
+        const duration = 38 + (size / 150) * 18 + Math.random() * 14;
 
         cloud.className = "cloud";
         cloud.src = randomCloudImage();
@@ -77,23 +78,39 @@ function initClouds() {
         });
     }
 
+    function randomSpawnDelay() {
+        return minSpawnDelay + Math.random() * (maxSpawnDelay - minSpawnDelay);
+    }
+
+    function scheduleNextCloud() {
+        clearTimeout(cloudTimer);
+
+        cloudTimer = setTimeout(() => {
+            tickClouds();
+            scheduleNextCloud();
+        }, randomSpawnDelay());
+    }
+
     function tickClouds() {
-        if (!document.hidden && getActiveClouds() < maxClouds) {
+        const activeClouds = getActiveClouds();
+        const softLimit = 3 + Math.floor(Math.random() * (maxClouds - 2));
+
+        if (!document.hidden && activeClouds < maxClouds && activeClouds < softLimit) {
             spawnCloud(false);
         }
     }
 
     function startCloudSpawner() {
         if (cloudTimer) return;
-        cloudTimer = setInterval(tickClouds, spawnDelay);
+        scheduleNextCloud();
     }
 
     function stopCloudSpawner() {
-        clearInterval(cloudTimer);
+        clearTimeout(cloudTimer);
         cloudTimer = null;
     }
 
-    [8, 38, 70].forEach(position => {
+    [18, 66].forEach(position => {
         spawnCloud(true, position);
     });
 

@@ -17,6 +17,7 @@ function initPalm() {
 
     let frameIndex = 0;
     let isShaking = false;
+    let shakeTimer = null;
 
     setInterval(() => {
         if (isShaking) return;
@@ -26,15 +27,15 @@ function initPalm() {
     }, 140);
 
     function shakePalm() {
-        if (isShaking) return;
-
         isShaking = true;
+        window.dispatchEvent(new CustomEvent("palm:shake"));
 
         palmWrapper.classList.remove("shaking");
         void palmWrapper.offsetWidth;
         palmWrapper.classList.add("shaking");
+        clearTimeout(shakeTimer);
 
-        setTimeout(() => {
+        shakeTimer = setTimeout(() => {
             palmWrapper.classList.remove("shaking");
             isShaking = false;
         }, 720);

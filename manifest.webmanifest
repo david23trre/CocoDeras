@@ -1,7 +1,7 @@
 {
     "name": "CocoDeras",
     "short_name": "CocoDeras",
-    "description": "Haz click en la palmera.",
+    "description": "Something that I wanted to do.",
     "start_url": "./",
     "scope": "./",
     "display": "standalone",

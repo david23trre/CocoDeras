@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cocoderas-v2';
+const CACHE_NAME = 'cocoderas-v4';
 const APP_SHELL = [
     './',
     './index.html',
@@ -8,6 +8,9 @@ const APP_SHELL = [
     './js/ground.js',
     './js/clouds.js',
     './js/wind.js',
+    './js/mensajes.js',
+    './js/coconuts.js',
+    './js/music.js',
     './js/main.js',
     './js/pwa.js',
     './assets/esenciales/icono.png',
@@ -76,6 +79,11 @@ self.addEventListener('activate', function (event) {
 
 self.addEventListener('fetch', function (event) {
     if (event.request.method !== 'GET') {
+        return;
+    }
+
+    if (event.request.headers.has('range')) {
+        event.respondWith(fetch(event.request));
         return;
     }
 
