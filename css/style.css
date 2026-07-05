@@ -24,7 +24,7 @@ body {
     width: 100vw;
     height: 100dvh;
     overflow: hidden;
-    background: #9adfff;
+    background: #1fa5ff;
 }
 
 @media (min-width: 700px) {
@@ -47,7 +47,7 @@ body {
     overflow: hidden;
     background: linear-gradient(
         to bottom,
-        #9adfff 0%,
+        #1fa5ff 0%,
         #d8f5ff 100%
     );
 }

@@ -5,7 +5,7 @@ function initCoconuts() {
     const messageText = document.getElementById("messageText");
     const messageClose = document.getElementById("messageClose");
 
-    const shakeGoal = 4;
+    const shakeGoal = 11;
     const breakDuration = 2200;
     const coconutImages = [
         "./assets/cocos/coco1.png",
