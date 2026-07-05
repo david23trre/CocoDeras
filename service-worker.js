@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cocoderas-v5';
+const CACHE_NAME = 'cocoderas-v6';
 const APP_SHELL = [
     './',
     './index.html',
