@@ -17,5 +17,5 @@ function initSun() {
     setInterval(function () {
         frameIndex = (frameIndex + 1) % frames.length;
         sun.src = frames[frameIndex];
-    }, 900);
+    }, 400);
 }

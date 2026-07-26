@@ -61,7 +61,7 @@ function initClouds() {
         const opacity = .52 + Math.random() * .26;
         const rotation = (Math.random() * 10) - 5;
         const travelDistance = sceneWidth + size * 2.4;
-        const pixelsPerSecond = 24 + Math.random() * 5;
+        const pixelsPerSecond = 30 + Math.random() * 10;
         const duration = travelDistance / pixelsPerSecond;
 
         cloud.className = "cloud";
