@@ -16,13 +16,16 @@ function initClouds() {
 
     let lastCloudSrc = null;
     let cloudTimer = null;
+    let activeCloudCount = 0;
 
-    const maxClouds = 7;
-    const minSpawnDelay = 3600;
-    const maxSpawnDelay = 9200;
+    const targetClouds = 4;
+    const maxClouds = 6;
+    const minSpawnDelay = 2400;
+    const normalSpawnDelay = 5200;
+    const maxSpawnDelay = 7600;
 
     function getActiveClouds() {
-        return clouds.querySelectorAll(".cloud").length;
+        return activeCloudCount;
     }
 
     function randomCloudImage() {
@@ -53,15 +56,19 @@ function initClouds() {
         const cloud = document.createElement("img");
 
         const size = 58 + Math.random() * 92;
+        const sceneWidth = clouds.clientWidth || window.innerWidth;
         const top = 4 + Math.random() * 46;
         const opacity = .52 + Math.random() * .26;
         const rotation = (Math.random() * 10) - 5;
-        const duration = 38 + (size / 150) * 18 + Math.random() * 14;
+        const travelDistance = sceneWidth + size * 2.4;
+        const pixelsPerSecond = 24 + Math.random() * 5;
+        const duration = travelDistance / pixelsPerSecond;
 
         cloud.className = "cloud";
         cloud.src = randomCloudImage();
         cloud.alt = "Nube";
         cloud.draggable = false;
+        cloud.decoding = "async";
 
         cloud.style.width = size + "px";
         cloud.style.top = top + "%";
@@ -70,16 +77,25 @@ function initClouds() {
         cloud.style.animationDuration = duration + "s";
         cloud.style.animationDelay = "0s";
         cloud.style.setProperty("--cloud-rotation", rotation + "deg");
+        cloud.style.setProperty("--cloud-travel", "-" + travelDistance + "px");
 
         clouds.appendChild(cloud);
+        activeCloudCount++;
 
         cloud.addEventListener("animationend", () => {
             cloud.remove();
+            activeCloudCount = Math.max(0, activeCloudCount - 1);
         });
     }
 
     function randomSpawnDelay() {
-        return minSpawnDelay + Math.random() * (maxSpawnDelay - minSpawnDelay);
+        const activeClouds = getActiveClouds();
+
+        if (activeClouds < targetClouds) {
+            return minSpawnDelay + Math.random() * 1200;
+        }
+
+        return normalSpawnDelay + Math.random() * (maxSpawnDelay - normalSpawnDelay);
     }
 
     function scheduleNextCloud() {
@@ -93,9 +109,8 @@ function initClouds() {
 
     function tickClouds() {
         const activeClouds = getActiveClouds();
-        const softLimit = 3 + Math.floor(Math.random() * (maxClouds - 2));
 
-        if (!document.hidden && activeClouds < maxClouds && activeClouds < softLimit) {
+        if (!document.hidden && activeClouds < maxClouds) {
             spawnCloud(false);
         }
     }
@@ -110,7 +125,7 @@ function initClouds() {
         cloudTimer = null;
     }
 
-    [18, 66].forEach(position => {
+    [10, 42, 74].forEach(position => {
         spawnCloud(true, position);
     });
 

@@ -5,6 +5,11 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+:root {
+    --sky-top: #1fa5ff;
+    --sky-bottom: #d8f5ff;
+}
+
 html,
 body {
     width: 100%;
@@ -13,7 +18,7 @@ body {
 }
 
 body {
-    background: #1b2f3a;
+    background: var(--sky-top);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,7 +29,7 @@ body {
     width: 100vw;
     height: 100dvh;
     overflow: hidden;
-    background: #1fa5ff;
+    background: var(--sky-top);
 }
 
 @media (min-width: 700px) {
@@ -47,9 +52,26 @@ body {
     overflow: hidden;
     background: linear-gradient(
         to bottom,
-        #1fa5ff 0%,
-        #d8f5ff 100%
+        var(--sky-top) 0%,
+        var(--sky-bottom) 100%
     );
+}
+
+.sun {
+    position: absolute;
+    top: max(34px, calc(env(safe-area-inset-top) + 16px));
+    right: 10%;
+    width: clamp(76px, 23vw, 112px);
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    image-rendering: pixelated;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    opacity: .92;
+    transform-origin: center;
+    animation: sunBreathe 7s ease-in-out infinite;
+    z-index: 0;
 }
 
 .clouds {
@@ -58,16 +80,21 @@ body {
     overflow: hidden;
     pointer-events: none;
     z-index: 1;
+    contain: layout paint style;
 }
 
 .cloud {
     position: absolute;
     left: 110%;
     --cloud-rotation: 0deg;
+    --cloud-travel: -650px;
     image-rendering: pixelated;
     pointer-events: none;
     user-select: none;
     -webkit-user-drag: none;
+    backface-visibility: hidden;
+    transform: translate3d(0,0,0);
+    will-change: transform, opacity;
     animation-name: cloudMove;
     animation-timing-function: linear;
     animation-fill-mode: forwards;
@@ -75,11 +102,21 @@ body {
 
 @keyframes cloudMove {
     from {
-        transform: translateX(0) rotate(var(--cloud-rotation));
+        transform: translate3d(0,0,0) rotate(var(--cloud-rotation));
     }
 
     to {
-        transform: translateX(-150vw) rotate(var(--cloud-rotation));
+        transform: translate3d(var(--cloud-travel),0,0) rotate(var(--cloud-rotation));
+    }
+}
+
+@keyframes sunBreathe {
+    0%, 100% {
+        transform: translateY(0) rotate(-.5deg) scale(1);
+    }
+
+    50% {
+        transform: translateY(1px) rotate(.5deg) scale(1.01);
     }
 }
 
@@ -89,21 +126,26 @@ body {
     overflow: hidden;
     pointer-events: none;
     z-index: 7;
+    contain: layout paint style;
 }
 
 .wind {
     position: absolute;
+    --wind-travel: -560px;
     height: 3px;
     background: rgba(255,255,255,.55);
     border-radius: 0;
     opacity: 0;
     image-rendering: pixelated;
+    backface-visibility: hidden;
+    transform: translate3d(0,0,0);
+    will-change: transform, opacity;
     animation: windMove linear infinite;
 }
 
 @keyframes windMove {
     0% {
-        transform: translateX(0);
+        transform: translate3d(0,0,0);
         opacity: 0;
     }
 
@@ -116,7 +158,7 @@ body {
     }
 
     100% {
-        transform: translateX(-130vw);
+        transform: translate3d(var(--wind-travel),0,0);
         opacity: 0;
     }
 }

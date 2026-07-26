@@ -2,13 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>CocoDeras</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="icon" type="image/png" href="./assets/esenciales/icono.png">
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="apple-touch-icon" href="./assets/esenciales/icon-192.png">
-    <meta name="theme-color" content="#9adfff">
+    <meta name="theme-color" content="#1fa5ff">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="CocoDeras">
@@ -24,6 +24,7 @@
     <div class="game-frame">
         <div class="scene">
 
+            <img class="sun" id="sun" src="./assets/cielo/sol1.png" alt="Sol" draggable="false">
             <div class="clouds" id="clouds"></div>
             <div class="wind-particles" id="windParticles"></div>
 
@@ -77,11 +78,13 @@
 
     <script src="./js/palm.js"></script>
     <script src="./js/ground.js"></script>
+    <script src="./js/sun.js"></script>
     <script src="./js/clouds.js"></script>
     <script src="./js/wind.js"></script>
     <script src="./js/mensajes.js"></script>
     <script src="./js/coconuts.js"></script>
     <script src="./js/music.js"></script>
+    <script src="./js/theme.js"></script>
     <script src="./js/main.js"></script>
     <script src="./js/pwa.js"></script>
 </body>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cocoderas-v6';
+const CACHE_NAME = 'cocoderas-v11';
 const APP_SHELL = [
     './',
     './index.html',
@@ -6,11 +6,13 @@ const APP_SHELL = [
     './css/style.css',
     './js/palm.js',
     './js/ground.js',
+    './js/sun.js',
     './js/clouds.js',
     './js/wind.js',
     './js/mensajes.js',
     './js/coconuts.js',
     './js/music.js',
+    './js/theme.js',
     './js/main.js',
     './js/pwa.js',
     './assets/esenciales/icono.png',
@@ -37,6 +39,9 @@ const APP_SHELL = [
     './assets/cielo/nube7.png',
     './assets/cielo/nube8.png',
     './assets/cielo/nube9.png',
+    './assets/cielo/sol1.png',
+    './assets/cielo/sol2.png',
+    './assets/cielo/sol3.png',
     './assets/cocos/coco1.png',
     './assets/cocos/coco2.png',
     './assets/cocos/coco3.png',
