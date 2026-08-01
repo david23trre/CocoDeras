@@ -1,6 +1,8 @@
 function initPalm() {
     const palmWrapper = document.getElementById("palmWrapper");
     const palmera = document.getElementById("palmera");
+    const shakeSound = new Audio("./sounds/Shaking.mp3");
+    shakeSound.preload = "auto";
 
     const palmFrames = [
         "./assets/palmera/base1.png",
@@ -34,6 +36,9 @@ function initPalm() {
         void palmWrapper.offsetWidth;
         palmWrapper.classList.add("shaking");
         clearTimeout(shakeTimer);
+
+        shakeSound.currentTime = 0;
+        shakeSound.play().catch(() => {});
 
         shakeTimer = setTimeout(() => {
             palmWrapper.classList.remove("shaking");

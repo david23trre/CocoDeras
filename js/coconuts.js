@@ -6,13 +6,23 @@ function initCoconuts() {
     const messageClose = document.getElementById("messageClose");
 
     const shakeGoal = 11;
-    const breakDuration = 2200;
+    const breakDuration = 3950;
     const coconutImages = [
         "./assets/cocos/coco1.png",
         "./assets/cocos/coco2.png",
         "./assets/cocos/coco3.png",
         "./assets/cocos/coco4.png"
     ];
+
+    const breakingSound = new Audio("./sounds/Breaking-a-Wood.mp3");
+    breakingSound.preload = "auto";
+    breakingSound.loop = false;
+
+    const openNoteSound = new Audio("./sounds/Paper.mp3");
+    openNoteSound.preload = "auto";
+
+    const buttonSound = new Audio("./sounds/Click.mp3");
+    buttonSound.preload = "auto";
 
     let shakeCount = 0;
     let activeCoconut = null;
@@ -67,6 +77,10 @@ function initCoconuts() {
         state = "open-ready";
         breakProgress = 1;
         updateBreakFrame();
+
+        breakingSound.pause();
+        breakingSound.currentTime = 0;
+
         activeCoconut.querySelector("img").src = "./assets/cocos/coco-abierto.png";
         activeCoconut.classList.remove("breaking");
         activeCoconut.classList.add("is-open");
@@ -95,10 +109,12 @@ function initCoconuts() {
             breakAnimation = null;
         }
 
+        breakingSound.pause();
+
         if (state === "breaking") {
             state = "ready";
             activeCoconut.classList.remove("breaking");
-            setHint("Manten presionado el coco");
+            setHint("Mantén presionado el coco");
         }
     }
 
@@ -114,6 +130,9 @@ function initCoconuts() {
         activeCoconut.setPointerCapture(event.pointerId);
         activeCoconut.classList.add("breaking");
         setHint("Sigue manteniendo...");
+
+        breakingSound.play().catch(() => { });
+
         breakAnimation = requestAnimationFrame(tickBreaking);
     }
 
@@ -124,6 +143,10 @@ function initCoconuts() {
 
         event.preventDefault();
         state = "message";
+
+        openNoteSound.currentTime = 0;
+        openNoteSound.play().catch(() => { });
+
         activeCoconut.querySelector("img").src = "./assets/cocos/coco-nota.png";
         activeCoconut.classList.add("has-note");
         setHint("Abriste una nota");
@@ -185,6 +208,8 @@ function initCoconuts() {
             }, 260);
         }
 
+        breakingSound.pause();
+        breakingSound.currentTime = 0;
         modal.hidden = true;
         shakeCount = 0;
         breakProgress = 0;
@@ -203,12 +228,18 @@ function initCoconuts() {
         if (shakeCount >= shakeGoal) {
             createCoconut();
             return;
-        }
+        } 
 
         const remaining = shakeGoal - shakeCount;
         setHint(remaining === 1 ? "Una sacudida más" : remaining + " sacudidas más");
     });
 
-    messageClose.addEventListener("click", resetCoconut);
+    messageClose.addEventListener("click", () => {
+    buttonSound.currentTime = 0;
+    buttonSound.play().catch(() => {});
+
+    resetCoconut();
+});
+
     setHint("Sacude la palmera");
 }
