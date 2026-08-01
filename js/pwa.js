@@ -2,8 +2,46 @@
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
     if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function () {
-            navigator.serviceWorker.register('./service-worker.js');
+        window.addEventListener('load', async function () {
+            try {
+                const registration = await navigator.serviceWorker.register('./service-worker.js');
+
+                await registration.update();
+
+                if (registration.waiting) {
+                    registration.waiting.postMessage('SKIP_WAITING');
+                }
+
+                registration.addEventListener('updatefound', function () {
+                    const newWorker = registration.installing;
+
+                    if (!newWorker) {
+                        return;
+                    }
+
+                    newWorker.addEventListener('statechange', function () {
+                        if (
+                            newWorker.state === 'installed' &&
+                            navigator.serviceWorker.controller
+                        ) {
+                            newWorker.postMessage('SKIP_WAITING');
+                        }
+                    });
+                });
+
+                let refreshing = false;
+
+                navigator.serviceWorker.addEventListener('controllerchange', function () {
+                    if (refreshing) {
+                        return;
+                    }
+
+                    refreshing = true;
+                    window.location.reload();
+                });
+            } catch (error) {
+                console.error('Service Worker registration failed:', error);
+            }
         });
     }
 
@@ -36,8 +74,10 @@
             }
 
             hideInstallBanner();
+
             installPrompt.prompt();
             await installPrompt.userChoice;
+
             installPrompt = null;
         });
 

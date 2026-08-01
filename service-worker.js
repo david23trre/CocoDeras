@@ -1,4 +1,5 @@
 const CACHE_NAME = 'cocoderas-v27';
+
 const APP_SHELL = [
     './',
     './index.html',
@@ -59,34 +60,38 @@ const APP_SHELL = [
 
 self.addEventListener('install', function (event) {
     event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(function (cache) {
-                return cache.addAll(APP_SHELL);
-            })
-            .then(function () {
-                return self.skipWaiting();
-            })
+        caches.open(CACHE_NAME).then(function (cache) {
+            return cache.addAll(APP_SHELL);
+        })
     );
+
+    self.skipWaiting();
 });
 
 self.addEventListener('activate', function (event) {
     event.waitUntil(
-        caches.keys()
-            .then(function (cacheNames) {
-                return Promise.all(
-                    cacheNames
-                        .filter(function (cacheName) {
-                            return cacheName !== CACHE_NAME;
-                        })
-                        .map(function (cacheName) {
-                            return caches.delete(cacheName);
-                        })
-                );
-            })
-            .then(function () {
-                return self.clients.claim();
-            })
+        (async function () {
+            const cacheNames = await caches.keys();
+
+            await Promise.all(
+                cacheNames
+                    .filter(function (cacheName) {
+                        return cacheName !== CACHE_NAME;
+                    })
+                    .map(function (cacheName) {
+                        return caches.delete(cacheName);
+                    })
+            );
+
+            await self.clients.claim();
+        })()
     );
+});
+
+self.addEventListener('message', function (event) {
+    if (event.data === 'SKIP_WAITING') {
+        self.skipWaiting();
+    }
 });
 
 self.addEventListener('fetch', function (event) {
@@ -100,22 +105,30 @@ self.addEventListener('fetch', function (event) {
     }
 
     event.respondWith(
-        caches.match(event.request)
-            .then(function (cachedResponse) {
-                return cachedResponse || fetch(event.request)
-                    .then(function (networkResponse) {
-                        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-                            return networkResponse;
-                        }
+        caches.match(event.request).then(function (cachedResponse) {
 
-                        const responseToCache = networkResponse.clone();
-                        caches.open(CACHE_NAME)
-                            .then(function (cache) {
-                                cache.put(event.request, responseToCache);
-                            });
+            const networkFetch = fetch(event.request)
+                .then(function (networkResponse) {
 
-                        return networkResponse;
-                    });
-            })
+                    if (
+                        networkResponse &&
+                        networkResponse.status === 200 &&
+                        (networkResponse.type === 'basic' || networkResponse.type === 'cors')
+                    ) {
+                        const responseClone = networkResponse.clone();
+
+                        caches.open(CACHE_NAME).then(function (cache) {
+                            cache.put(event.request, responseClone);
+                        });
+                    }
+
+                    return networkResponse;
+                })
+                .catch(function () {
+                    return cachedResponse;
+                });
+
+            return cachedResponse || networkFetch;
+        })
     );
 });
