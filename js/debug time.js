@@ -34,6 +34,11 @@ function initSun() {
     const nightStart = 18.7;
     const dayEnd = 18.7;
     const nightEnd = 5;
+const DEBUG_TIME = true;      // Hora fija
+const DEBUG_HOUR = 5;       // Hora usada cuando DEBUG_TIME = true
+
+const DEBUG_CYCLE = false;     // Hace correr el tiempo automáticamente
+const DEBUG_SPEED = 1;        // Horas del juego por segundo real
 
     const sunTravelStart = 4.5;
     const sunTravelEnd = 19.4;
@@ -52,11 +57,48 @@ function initSun() {
         sun.src = sunFrames[frameIndex];
     }, 400);
 
-    setInterval(updateSkyCycle, 30000);
+    setInterval(updateSkyCycle, 16);
 
     function updateSkyCycle() {
-        const now = getSanSalvadorDate();
-        const hour = now.getUTCHours() + (now.getUTCMinutes() / 60) + (now.getUTCSeconds() / 3600);
+const now = getSanSalvadorDate();
+
+const realHour =
+    now.getUTCHours() +
+    (now.getUTCMinutes() / 60) +
+    (now.getUTCSeconds() / 3600);
+
+// Hora usada por el simulador
+let hour;
+
+if (DEBUG_CYCLE) {
+
+    // Se inicializa solo una vez
+    if (window.__debugHour === undefined) {
+        window.__debugHour = DEBUG_HOUR;
+        window.__lastFrame = performance.now();
+    }
+
+    const current = performance.now();
+    const delta = (current - window.__lastFrame) / 1000;
+    window.__lastFrame = current;
+
+    window.__debugHour += delta * DEBUG_SPEED;
+
+    // Mantener entre 0 y 24
+    window.__debugHour =
+        ((window.__debugHour % 24) + 24) % 24;
+
+    hour = window.__debugHour;
+
+} else if (DEBUG_TIME) {
+
+    hour = DEBUG_HOUR;
+
+} else {
+
+    hour = realHour;
+
+}
         const isDay = hour >= dayStart && hour < dayEnd;
 
         sun.hidden = !isDay;

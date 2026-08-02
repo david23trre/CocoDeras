@@ -1,66 +1,81 @@
 function initMusic() {
     const tracks = [
-        "./music/C418 - Sweden.mp3",
-        "./music/C418 - Danny.mp3",
-        "./music/C418 - Haggstrom.mp3",
-        "./music/C418 - Living Mice.mp3",
-        "./music/C418 - Mice on Venus.mp3",
-        "./music/C418 - Minecraft.mp3",
-        "./music/C418 - Moog City.mp3",
-        "./music/C418 - Subwoofer Lullaby.mp3",
-        "./music/C418 - Wet Hands.mp3",
-        "./music/C418 - Équinoxe.mp3"
+        "./music/Sweden.mp3",
+        "./music/Danny.mp3",
+        "./music/Haggstrom.mp3",
+        "./music/Living-Mice.mp3",
+        "./music/Mice-on-Venus.mp3",
+        "./music/Minecraft.mp3",
+        "./music/Moog-City.mp3",
+        "./music/Subwoofer-Lullaby.mp3",
+        "./music/Wet-Hands.mp3",
+        "./music/Equinoxe.mp3"
     ];
 
     const audio = new Audio();
-    audio.volume = 0.5;
-    audio.preload = "none";
+    audio.volume = 1;
+    audio.preload = "auto";
 
     let started = false;
     let lastTrack = "";
 
     function randomTrack() {
-        let track = tracks[Math.floor(Math.random() * tracks.length)];
-        let attempts = 0;
+        if (tracks.length === 1) return tracks[0];
 
-        while (track === lastTrack && tracks.length > 1 && attempts < 8) {
+        let track;
+
+        do {
             track = tracks[Math.floor(Math.random() * tracks.length)];
-            attempts++;
-        }
+        } while (track === lastTrack);
 
         lastTrack = track;
         return track;
     }
 
+    function playTrack(track) {
+        audio.pause();
+        audio.src = track;
+        audio.load();
+
+        const playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+            playPromise.catch(err => {
+                console.warn("No se pudo reproducir:", err);
+                started = false;
+            });
+        }
+    }
+
     function playNextTrack() {
-        audio.src = randomTrack();
-        audio.play().catch(function () {
-            started = false;
-        });
+        playTrack(randomTrack());
     }
 
     function startMusic() {
-        if (started) {
-            return;
-        }
+        if (started) return;
 
         started = true;
         playNextTrack();
     }
 
     audio.addEventListener("ended", playNextTrack);
-    window.addEventListener("pointerdown", startMusic, { once: true });
-    window.addEventListener("keydown", startMusic, { once: true });
 
-    document.addEventListener("visibilitychange", function () {
-        if (!started) {
-            return;
-        }
+    audio.addEventListener("error", () => {
+        console.warn("Error cargando:", audio.src);
+        playNextTrack();
+    });
+
+    document.addEventListener("visibilitychange", () => {
+        if (!started) return;
 
         if (document.hidden) {
             audio.pause();
         } else {
-            audio.play().catch(function () {});
+            audio.play().catch(() => {});
         }
+    });
+
+    ["pointerdown", "touchstart", "keydown"].forEach(event => {
+        window.addEventListener(event, startMusic, { once: true, passive: true });
     });
 }
