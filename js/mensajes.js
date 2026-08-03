@@ -171,5 +171,6 @@ window.COCODERAS_MESSAGES = [
     "Se nota tu esfuerzo, I'm so prouf of u<3",
     "Te sientes muy onichan?",
     "Cómo olvidar cuando...",
-    "Shhhhhhh"
+    "Shhhhhhh",
+    "Thank you for being my friend🌷"
 ];
