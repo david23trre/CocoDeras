@@ -170,5 +170,6 @@ window.COCODERAS_MESSAGES = [
     "Do ur homeworks bro",
     "Se nota tu esfuerzo, I'm so prouf of u<3",
     "Te sientes muy onichan?",
-    "Cómo olvidar cuando..."
+    "Cómo olvidar cuando...",
+    "Shhhhhhh"
 ];
