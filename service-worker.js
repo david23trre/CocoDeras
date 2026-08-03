@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cocoderas-v677';
+const CACHE_NAME = 'cocoderas-v74';
 
 const APP_SHELL = [
     './',
@@ -55,7 +55,23 @@ const APP_SHELL = [
     './assets/cocos/coco3.png',
     './assets/cocos/coco4.png',
     './assets/cocos/coco-abierto.png',
-    './assets/cocos/coco-nota.png'
+    './assets/cocos/coco-nota.png',
+    './music/Danny.mp3',
+    './music/Equinoxe.mp3',
+    './music/Haggstrom.mp3',
+    './music/Living-Mice.mp3',
+    './music/Mice-on-Venus.mp3',
+    './music/Minecraft.mp3',
+    './music/Moog-City.mp3',
+    './music/Subwoofer-Lullaby.mp3',
+    './music/Sweden.mp3',
+    './music/Wet-Hands.mp3',
+    './sounds/Breaking-a-Wood.mp3',
+    './sounds/Click.mp3',
+    './sounds/Paper.mp3',
+    './sounds/Shake.mp3',
+    './sounds/Shaking.mp3',
+    './sounds/Tree.mp3'
 ];
 
 self.addEventListener('install', function (event) {
